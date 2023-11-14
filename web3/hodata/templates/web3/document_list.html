@@ -6,27 +6,20 @@
 </head>
 <body>
 <div>
-    <a href="{% url 'document_new' %}" >Новый запрос</a>
+    <a href="{% url 'document_new' %}">Новый запрос</a>
 </div>
 
-        <form>
-             <label> Поле выбора запроса </label>
-                        <select name="document_detail" id="Document" class="form-control">
-                <option value="0">--Выбор запроса--</option>
-                {% for document in items %}
-                <option value="{{ document.id }}">{{ document.title }}</option>
-                {% endfor %}
-                        </select>
-               <!-- <input type="submit" value="click">-->
-        </form>
-    <h2>Выберите элемент из списка:</h2>
-<form method="post" action="{% url 'zapros' %}">
+<form>
+
+</form>
+<h2>Выберите элемент из списка:</h2>
+<form method="post" action="{% url 'zapros2' %}">
     {% csrf_token %}
     {{ form.as_p }}
     <button type="submit">Показать информацию</button>
 </form>
 
-            {% if item %}
+{% if selected_item %}
     <h2>Информация о выбранном элементе:</h2>
     <table border="1">
         <tr>
@@ -34,12 +27,11 @@
             <th>Описание</th>
         </tr>
         <tr>
-            <td>{{ item.title }}</td>
-            <td>{{ item.text }}</td>
+            <td>{{ selected_item.title }}</td>
+            <td>{{ selected_item.text }}</td>
         </tr>
     </table>
-            {% endif %}
-
+{% endif %}
 
 
 </body>

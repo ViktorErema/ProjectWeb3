@@ -11,3 +11,7 @@ class DocumentForm(forms.ModelForm):
             'title',
             'text',
         )
+
+
+class ListItemForm(forms.Form):
+    item = forms.ModelChoiceField(queryset=Document.objects.all())

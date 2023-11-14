@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 
-from .forms import DocumentForm
+from .forms import DocumentForm, ListItemForm
 from .models import Document
 
 
@@ -33,8 +33,26 @@ def zapros(request):
     if request.method == 'POST':
         form = DocumentForm(request.POST)
         if form.is_valid():
-            selected_item = form.cleaned_data['title', 'text']
+            selected_item = form.cleaned_data['item']
             return render(request, 'web3/document_list.html', {'item': selected_item})
     else:
         form = DocumentForm()
     return render(request, 'web3/document_list.html', {'form': form})
+
+
+def zapros2(request):
+    if request.method == 'POST':
+        form = ListItemForm(request.POST)
+        if form.is_valid():
+            selected_item = form.cleaned_data['item']
+        else:
+            selected_item = None
+    else:
+        form = ListItemForm()
+        selected_item = None
+
+    context= {
+        'form': form,
+        'selected_item': selected_item,
+    }
+    return render(request, 'web3/document_list.html', context)
