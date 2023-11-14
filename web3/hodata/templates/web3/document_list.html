@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div>
+    <a href="{% url 'document_new' %}" >Новый запрос</a>
+</div>
+
+        <form>
+             <label> Поле выбора запроса </label>
+                        <select name="запросы" id="Document" class="form-control">
+                <option value="0">--Выбор запроса--</option>
+                {% for document in items %}
+                <option value="{{ document.id }}">{{ document.title }}</option>
+                {% endfor %}
+                        </select>
+
+        </form>
+<h1>Index</h1>
+<form method="post">
+    <select name="region">
+         {% f{% for document in items %} %}
+             <option
+              value="{{ document.id }}"
+              {% if selected_region == region %}
+                  selected="selected"
+              {% endif %}
+             >{{ region }}</option>
+         {% endfor %}
+    </select>
+    <input type="submit" value="Select">
+</form>
+{% if selected_region %}
+  <p>
+    Nice, you selected: {{ selected_region }}!
+  </p>
+  <p>
+    Restaurants in this region:
+  </p>
+  <ul>
+     {% for restaurant in restaurants %}
+       <li>{{ restaurant.restName }}</li>
+     {% endfor %}
+  </ul>
+{% endif %}
+
+</body>
+</html>

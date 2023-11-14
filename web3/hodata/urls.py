@@ -5,5 +5,5 @@ from .views import document_list, document_new
 
 urlpatterns = [
     path('', document_list, name='document_list'),
-    path('document/new', document_new, name='document_new'),
+    path('document_list/document_new/', document_new, name='document_new'),
 ]
