@@ -11,41 +11,36 @@
 
         <form>
              <label> Поле выбора запроса </label>
-                        <select name="запросы" id="Document" class="form-control">
+                        <select name="document_detail" id="Document" class="form-control">
                 <option value="0">--Выбор запроса--</option>
                 {% for document in items %}
                 <option value="{{ document.id }}">{{ document.title }}</option>
                 {% endfor %}
                         </select>
-
+               <!-- <input type="submit" value="click">-->
         </form>
-<h1>Index</h1>
-<form method="post">
-    <select name="region">
-         {% f{% for document in items %} %}
-             <option
-              value="{{ document.id }}"
-              {% if selected_region == region %}
-                  selected="selected"
-              {% endif %}
-             >{{ region }}</option>
-         {% endfor %}
-    </select>
-    <input type="submit" value="Select">
+    <h2>Выберите элемент из списка:</h2>
+<form method="post" action="{% url 'zapros' %}">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Показать информацию</button>
 </form>
-{% if selected_region %}
-  <p>
-    Nice, you selected: {{ selected_region }}!
-  </p>
-  <p>
-    Restaurants in this region:
-  </p>
-  <ul>
-     {% for restaurant in restaurants %}
-       <li>{{ restaurant.restName }}</li>
-     {% endfor %}
-  </ul>
-{% endif %}
+
+            {% if item %}
+    <h2>Информация о выбранном элементе:</h2>
+    <table border="1">
+        <tr>
+            <th>Название</th>
+            <th>Описание</th>
+        </tr>
+        <tr>
+            <td>{{ item.title }}</td>
+            <td>{{ item.text }}</td>
+        </tr>
+    </table>
+            {% endif %}
+
+
 
 </body>
 </html>
