@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 
 from .forms import DocumentForm, ListItemForm
-from .models import Document
+from .models import *
 
 
 def document_list(request):
@@ -56,3 +56,6 @@ def zapros2(request):
         'selected_item': selected_item,
     }
     return render(request, 'web3/document_list.html', context)
+
+# def get_books(request):
+#     return render('web3/document_list.html', request, {'books': Book.nodes.all()})

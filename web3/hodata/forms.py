@@ -1,5 +1,7 @@
 from django import forms
-from .models import Document
+from django.forms import ModelForm
+
+from .models import *
 
 
 class DocumentForm(forms.ModelForm):
@@ -15,3 +17,9 @@ class DocumentForm(forms.ModelForm):
 
 class ListItemForm(forms.Form):
     item = forms.ModelChoiceField(queryset=Document.objects.all())
+
+
+# class BookForm(ModelForm):
+#     class Meta:
+#         model = Book
+#         fields = ['title', 'status']

@@ -1,6 +1,6 @@
 from django.contrib import admin
-
-from .models import Document
+from django_neomodel import admin as neo_admin
+from .models import *
 
 @admin.register(Document)
 class DocumentAdmin(admin.ModelAdmin):
@@ -8,4 +8,10 @@ class DocumentAdmin(admin.ModelAdmin):
     list_display_links = ('id', 'title',)
 
 
-# admin.site.register(Document)
+admin.site.register(Subject)
+admin.site.register(Predicat)
+admin.site.register(Object)
+admin.site.register(Graff)
+# class BookAdmin(admin.ModelAdmin):
+#     list_display = ("title", "created")
+# neo_admin.register(Book, BookAdmin)
