@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2><a href="{% url 'neo4j_api:person_list' %}">Person list</a></h2>
+
+<ul>
+    {% for person in object_list %}
+    <li>{{ person.name }} <strong>({{ person.uid }})</strong>
+    <a href="{% url 'neo4j_api:person_edit' person.uid %}">edit</a>
+    <a href="% url 'neo4j_api:person_delete' person.uid %">delete</a>
+    </li>
+    {% endfor %}
+</ul>
+
+<a href="% url 'neo4j_api:person_new' %}">New</a>
+
+{% endblock %}

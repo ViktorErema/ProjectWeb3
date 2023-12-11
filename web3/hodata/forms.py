@@ -18,8 +18,3 @@ class DocumentForm(forms.ModelForm):
 class ListItemForm(forms.Form):
     item = forms.ModelChoiceField(queryset=Document.objects.all())
 
-
-# class BookForm(ModelForm):
-#     class Meta:
-#         model = Book
-#         fields = ['title', 'status']

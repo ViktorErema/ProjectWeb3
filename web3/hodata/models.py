@@ -1,7 +1,11 @@
+import pytz
 from django.db import models
 from datetime import datetime
 from django_neomodel import DjangoNode
-from neomodel import StructuredNode, StringProperty, DateTimeProperty, UniqueIdProperty
+from neomodel import StructuredNode, StringProperty, DateTimeProperty, UniqueIdProperty, DateProperty, Relationship, \
+    RelationshipTo, RelationshipFrom, One, StructuredRel, IntegerProperty, OneOrMore
+from .models import *
+
 
 # Create your models here.
 class Document (models.Model):
@@ -43,15 +47,119 @@ class Graff (models.Model):
         return f'{self.subject} {self.predicat} {self.object}'
 
 
-# class Book(DjangoNode):
-#     uid = UniqueIdProperty()
-#     title = StringProperty(unique_index=True)
-#     status = StringProperty(choices=(
-#             ('Available', 'A'),
-#             ('On loan', 'L'),
-#             ('Damaged', 'D'),
-#         ), default='Available')
-#     created = DateTimeProperty(default=datetime.utcnow)
-#
-#     class Meta:
-#         app_label = 'library'
+
+class SupplierRel(StructuredRel):
+    since = DateTimeProperty(default=datetime.now)
+
+
+class Supplier(DjangoNode):
+    uid = UniqueIdProperty()
+    name = StringProperty(unique_index=True)
+    delivery_cost = IntegerProperty()
+    coffees = RelationshipTo('Coffee', 'SUPPLIES')
+    class Meta:
+        app_label = 'hodata'
+
+class Coffee(DjangoNode):
+    uid = UniqueIdProperty()
+    name = StringProperty(unique_index=True)
+    nameSupplier = StringProperty(unique_index=True)
+    price = IntegerProperty()
+    suppliers = RelationshipFrom(Supplier, 'SUPPLIES', model=SupplierRel)
+
+    class Meta:
+        app_label = 'hodata'
+
+
+
+
+class Address(StructuredNode):
+    sourceID       = StringProperty()
+    country_codes  = StringProperty()
+    valid_until    = StringProperty()
+    address        = StringProperty()
+    countries      = StringProperty()
+    node_id        = StringProperty(index = True)
+
+
+class Entity(StructuredNode):
+    sourceID                           = StringProperty()
+    address                            = StringProperty()
+    jurisdiction                       = StringProperty()
+    service_provider                   = StringProperty()
+    countries                          = StringProperty()
+    jurisdiction_description           = StringProperty()
+    valid_until                        = StringProperty()
+    ibcRUC                             = StringProperty()
+    name                               = StringProperty()
+    country_codes                      = StringProperty()
+    incorporation_date                 = StringProperty()
+    node_id                            = StringProperty(index = True)
+    status                             = StringProperty()
+    officers = RelationshipFrom('.officer.Officer', 'OFFICER_OF')
+    intermediaries = RelationshipFrom('.intermediary.Intermediary', 'INTERMEDIARY_OF')
+    addresses = RelationshipTo('.address.Address', 'REGISTERED_ADDRESS')
+    others = RelationshipFrom('.other.Other', 'CONNECTED_TO')
+    entities = Relationship('.entity.Entity', None)
+class Intermediary(StructuredNode):
+    sourceID      = StringProperty()
+    valid_until   = StringProperty()
+    name          = StringProperty()
+    country_codes = StringProperty()
+    countries     = StringProperty()
+    node_id       = StringProperty(index = True)
+    status        = StringProperty()
+    entities      = RelationshipTo('Entity', 'INTERMEDIARY_OF')
+    addresses     = RelationshipTo('Address', 'REGISTERED_ADDRESS')
+    officers      = Relationship('Officer', None)
+
+
+class Officer(StructuredNode):
+    sourceID      = StringProperty()
+    name          = StringProperty()
+    country_codes = StringProperty()
+    valid_until   = StringProperty()
+    countries     = StringProperty()
+    node_id       = StringProperty(index = True)
+    addresses     = RelationshipTo('Address', 'REGISTERED_ADDRESS')
+    entities      = RelationshipTo('Entity', 'OFFICER_OF')
+    officers      = Relationship('Officer', None)
+
+class Other(StructuredNode):
+    sourceID    = StringProperty()
+    name        = StringProperty()
+    valid_until = StringProperty()
+    node_id     = StringProperty(index = True)
+    countries   = StringProperty()
+    addresses   = RelationshipTo('Address', 'REGISTERED_ADDRESS')
+    officers    = Relationship('Officer', None)
+    entities    = Relationship('Entity', None)
+
+
+class PersonLivesInCity(StructuredRel):
+    some_num = IntegerProperty(index=True,
+                               default=12)
+
+class CountryOfOrigin(StructuredNode):
+    code = StringProperty(unique_index=True,
+                          required=True)
+
+class CityOfResidence(StructuredNode):
+    name = StringProperty(required=True)
+    country = RelationshipTo(CountryOfOrigin,
+                             'FROM_COUNTRY')
+
+class PersonOfInterest(DjangoNode):
+    uid = UniqueIdProperty()
+    name = StringProperty(unique_index=True)
+    age = IntegerProperty(index=True,
+                          default=0)
+
+    country = RelationshipTo(CountryOfOrigin,
+                             'IS_FROM')
+    city = RelationshipTo(CityOfResidence,
+                          'Живет',
+                          model=PersonLivesInCity)
+
+    class Meta:
+        app_label = 'hodata'

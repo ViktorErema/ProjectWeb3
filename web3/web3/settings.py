@@ -12,12 +12,20 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 import os.path
 from pathlib import Path
 
+from neo4j import GraphDatabase
+from neomodel import config
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 
-NEOMODEL_NEO4J_BOLT_URL = os.environ.get('NEO4J_BOLT_URL', 'bolt://neo4j:foobarbaz@localhost:7687')
+NEOMODEL_NEO4J_BOLT_URL = os.environ.get('NEO4J_BOLT_URL', 'bolt://neo4j:neo4jneo4j@localhost:7687')
+NEOMODEL_SIGNALS = True
+NEOMODEL_FORCE_TIMEZONE = False
+NEOMODEL_MAX_CONNECTION_POOL_SIZE = 50
+driver = GraphDatabase.driver("bolt://localhost:7687",
+                              auth=("neo4j", "neo4jneo4j"))
+
 
 
 
@@ -40,6 +48,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'hodata.apps.HodataConfig',
     'django_neomodel',
+
 ]
 
 MIDDLEWARE = [
