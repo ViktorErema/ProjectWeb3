@@ -13,21 +13,19 @@ admin.site.register(Predicat)
 admin.site.register(Object)
 admin.site.register(Graff)
 
+class PersonAdmin(admin.ModelAdmin):
+    list_display = ["name"]
+neo_admin.register(Person, PersonAdmin)
+
+class CarAdmin(admin.ModelAdmin):
+    list_display = ["name"]
+neo_admin.register(Car, CarAdmin)
+
+class HouseAdmin(admin.ModelAdmin):
+    list_display = ["number"]
+neo_admin.register(House, HouseAdmin)
 
 
-
-# class MovieAdmin(admin.ModelAdmin):
+# class BookAdmin(admin.ModelAdmin):
 #     list_display = ["name"]
-# neo_admin.register(Movie, MovieAdmin)
-
-class CoffeeAdmin(admin.ModelAdmin):
-     list_display = ["name"]
-neo_admin.register(Coffee, CoffeeAdmin)
-
-class SupplierAdmin(admin.ModelAdmin):
-    list_display = ["name"]
-neo_admin.register(Supplier, SupplierAdmin)
-
-class PersonOfInterestAdmin(admin.ModelAdmin):
-    list_display = ["name"]
-neo_admin.register(PersonOfInterest, PersonOfInterestAdmin)
+# neo_admin.register(Book, BookAdmin)

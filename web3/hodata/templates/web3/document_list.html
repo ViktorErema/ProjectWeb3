@@ -9,9 +9,7 @@
     <a href="{% url 'document_new' %}">Новый запрос</a>
 </div>
 
-<form>
 
-</form>
 <h2>Выберите элемент из списка:</h2>
 <form method="post" action="{% url 'zapros2' %}">
     {% csrf_token %}
@@ -33,6 +31,14 @@
     </table>
 {% endif %}
 
+
+    <div>
+    <ul>
+        {% for node in nodes %}
+        {{ node.name }}<br>
+        {% endfor %}
+    </ul>
+    </div>
 
 </body>
 </html>

@@ -7,8 +7,12 @@ from .models import *
 def document_list(request):
     documents = Document.objects.all()
     return render (request, 'web3/document_list.html', {'items': documents,
-
-                                                        })
+                                                                             })
+def person_list(request):
+    persons = Person.nodes.all()
+    return render (request, 'web3/person_list.html', {
+                                                                            'data': persons,
+                                                                            })
 
 def document_detail(request,document_pk):
     documents = Document.objects.get(pk=document_pk)
@@ -43,41 +47,26 @@ def zapros2(request):
     }
     return render(request, 'web3/document_list.html', context)
 
-# def person_update(request, uid, template_name='neo4j_api/person_form.html'):
-#     #person = get_object_or_404(Person, uid=uid)
-#     person = Person.nodes.get_or_none(uid=uid)
-#     if person:
-#         print("person = ", person)
-#         #name = person.name
-#     form = PersonForm(request.POST or None, instance=person)
-#     if form.is_valid():
-#         form.save()
-#         return redirect('neo4j_api:person_list')
-#     return render(request, template_name, {'form':form})
-#
-# def person_list(request, template_name='neo4j_api/person_list.html'):
-#
-#     person = Person.nodes.all()
-#     data = {}
-#     data['object_list'] = person
-#     return render(request, template_name, data)
-#
-# def movie_list(request, template_name='neo4j_api/movie_list.html'):
-#
-#     movie = Movie.nodes.all()
-#     data = {}
-#     data['object_list'] = movie
-#     return render(request, template_name, data)
-#
-# def get_persons(request):
-#
-#     #return render('neo4j/persons.html', request, {'persons': Person.nodes.all()})
-#     #output = '{}'.format(Person.nodes.all())
-#     output = Person.nodes.all()
-#     return HttpResponse(output)
-#
-#
-# def persons(request):
-#     #return render(request, 'neo4j/persons.html', {'persons': Person.nodes.all()})
-#     #return render(request, {'persons': HttpResponse(Person.nodes.all())})
-#     return HttpResponse(Person.nodes.all())
+
+
+
+def person_update(request, uid):
+    person = Person.nodes.get_or_none(uid=uid)
+    if person:
+     ps_form = PersonForm(request.POST or None, instance=person)
+    if ps_form.is_valid():
+        ps_form.save()
+        return redirect('web3/person_list')
+    return render(request, {'ps_form':ps_form})
+
+
+def person_new(request):
+    if request.method == "GET":
+        ps_form = PersonForm()
+        return render(request, 'web3/person_new.html', {'ps_form': ps_form} )
+    else:
+        ps_form = PersonForm(request.POST)
+        if ps_form.is_valid():
+            person = ps_form.save(commit=False)
+            person.save()
+            return redirect(person_list)

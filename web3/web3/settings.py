@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 import os.path
 from pathlib import Path
+from py2neo import Graph
 
 from neo4j import GraphDatabase
 from neomodel import config
@@ -18,6 +19,7 @@ from neomodel import config
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
+graph = Graph(host='localhost', port=7687, user='neo4j', password='neo4jneo4j')
 
 NEOMODEL_NEO4J_BOLT_URL = os.environ.get('NEO4J_BOLT_URL', 'bolt://neo4j:neo4jneo4j@localhost:7687')
 NEOMODEL_SIGNALS = True
@@ -89,8 +91,29 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    },
+
+        'neo4j': {
+        'ENGINE':   'django.db.backends.neo4j',
+        'NAME':     'neo4j',
+        'HOST':     'localhost',
+        'PORT':     '7687',
+        'USERNAME': 'neo4j',
+        'PASSWORD': 'your_passwordneo4jneo4j',
+        }
 }
+#
+# DATABASES = {
+# 'default': {
+# 'ENGINE': 'django.db.backends.neo4j',
+# 'NAME': 'neo4j',
+# 'HOST': 'localhost',
+# 'PORT': '7687',
+# 'USERNAME': 'neo4j',
+# 'PASSWORD': 'neo4jneo4j',
+# }
+# }
+
 
 
 # Password validation

@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+
+<h2><a href="{% url 'person_list' %}"> Back to post</a>: Edit</h2>
+
+<form method="post">{% csrf_token %}
+    {{ ps_form.as_p }}
+    <input type="submit" value="Submit" />
+</form>
+
+</body>
+</html>

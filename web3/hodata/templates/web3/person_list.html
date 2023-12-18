@@ -1,18 +1,25 @@
-{% extends "base.html" %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
 
-{% block content %}
+</head>
+<body>
+<div>
+    <a href="{% url 'person_new' %}">Создание персон</a>
+</div>
 
-<h2><a href="{% url 'neo4j_api:person_list' %}">Person list</a></h2>
+    <div >
 
-<ul>
-    {% for person in object_list %}
-    <li>{{ person.name }} <strong>({{ person.uid }})</strong>
-    <a href="{% url 'neo4j_api:person_edit' person.uid %}">edit</a>
-    <a href="% url 'neo4j_api:person_delete' person.uid %">delete</a>
-    </li>
-    {% endfor %}
-</ul>
+           {%for i in data%}
+                <th>Person</th>
+                <p  style=" border: 2px solid black;">
+               <th> ID {{ i.uid }}<br></th>
+               <th> Имя: {{ i.name }}<br></th>
+               <th> Возраст:  {{ i.age }}<br></th></p>
+                {% endfor %}
 
-<a href="% url 'neo4j_api:person_new' %}">New</a>
+     </div>
 
-{% endblock %}
+</body>
+</html>

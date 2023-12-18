@@ -18,3 +18,10 @@ class DocumentForm(forms.ModelForm):
 class ListItemForm(forms.Form):
     item = forms.ModelChoiceField(queryset=Document.objects.all())
 
+class PersonForm(ModelForm):
+    class Meta:
+        model = Person
+        fields = ('name',
+                  'age',
+                  'uid',
+                  )
