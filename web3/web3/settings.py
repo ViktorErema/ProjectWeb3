@@ -19,15 +19,12 @@ from neomodel import config
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-graph = Graph(host='localhost', port=7687, user='neo4j', password='neo4jneo4j')
-
 NEOMODEL_NEO4J_BOLT_URL = os.environ.get('NEO4J_BOLT_URL', 'bolt://neo4j:neo4jneo4j@localhost:7687')
 NEOMODEL_SIGNALS = True
 NEOMODEL_FORCE_TIMEZONE = False
 NEOMODEL_MAX_CONNECTION_POOL_SIZE = 50
-driver = GraphDatabase.driver("bolt://localhost:7687",
-                              auth=("neo4j", "neo4jneo4j"))
-
+# driver = GraphDatabase.driver("bolt://localhost:7687",
+#                               auth=("neo4j", "neo4jneo4j"))
 
 
 

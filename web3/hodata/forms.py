@@ -23,5 +23,13 @@ class PersonForm(ModelForm):
         model = Person
         fields = ('name',
                   'age',
-                  'uid',
+
+                  )
+
+class CarForm(ModelForm):
+    class Meta:
+        model = Car
+        fields = ('name',
+                  'number',
+
                   )

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+</head>
+<body>
+ <div>
+    <a href="{% url 'person_new' %}">Создание персон</a>
+ </div>
+ <div>
+    <a href="{% url 'car_new' %}">Создание Машины</a>
+ </div>
+  <form method="GET" action="list_objects.html">
+     <center><input type="text" name="q" placeholder="Введите запрос"></center>
+     <center><button type="submit" name="submit">Поиск</button></center>
+  </form>
+
+    <div >
+
+           {%for i in data%}
+
+            <th>Person
+
+                <p  style=" border: 2px solid black;">
+               <th> ID {{ i.uid }}<br></th>
+               <th> Имя: {{ i.name }}<br></th>
+               <th> Возраст:  {{ i.age }}<br></th>
+                <th>
+                    <a href="{% url 'list_detail' uid=i.uid %}">Смотреть полностью</a>
+                </th>
+                <th>
+                   <a href="{% url 'person_delete' uid=i.uid %}"> Удалить</a>
+                 </th>
+                 <th>
+                   <a href="{% url 'person_update' uid=i.uid %}"> Изменить</a>
+                 </th>
+                </p>
+                {% endfor %}
+
+
+    </div>
+
+     <div >
+
+           {%for i in data_cars%}
+                <th>Car</th>
+
+                <p  style=" border: 2px solid black;">
+               <th> ID {{ i.uid }}<br></th>
+               <th> Имя: {{ i.name }}<br></th>
+               <th> Возраст:  {{ i.number }}<br></th>
+                    <th>
+                    <a href="{% url 'list_detail_car' uid=i.uid %}">Смотреть полностью</a>
+                </th>
+                    <th>
+                   <a href="{% url 'car_delete' uid=i.uid %}"> Удалить</a>
+                 </th>
+
+                </p>
+                {% endfor %}
+
+     </div>
+
+</body>
+</html>

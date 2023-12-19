@@ -14,11 +14,11 @@ admin.site.register(Object)
 admin.site.register(Graff)
 
 class PersonAdmin(admin.ModelAdmin):
-    list_display = ["name"]
+    list_display = ("uid", "name")
 neo_admin.register(Person, PersonAdmin)
 
 class CarAdmin(admin.ModelAdmin):
-    list_display = ["name"]
+    list_display = ["uid", "name"]
 neo_admin.register(Car, CarAdmin)
 
 class HouseAdmin(admin.ModelAdmin):

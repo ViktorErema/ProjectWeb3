@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+ <div style="text-align: left;  ">
+        <a style="font-size: 20px; margin: 5px; color: #580000; border: 1px solid; border-radius: 25px; padding: 5px "
+           href="{% url 'list_objects' %}"> Вернуться назад
+        </a>
+     <div style="">
+        <div style="">
+              <div style="font-size: 30px; text-align: center; padding: 20px" >
+                  <a > {{ person.name }} </a>
+              </div>
+              <div style="margin-top: 25px; text-align: center" >
+                {{ person.age }}
+              </div>
+
+
+        </div>
+    </div>
+     <div style="">
+        <div style="">
+              <div style="font-size: 30px; text-align: center; padding: 20px" >
+                  <a > {{ cars.name }} </a>
+              </div>
+              <div style="margin-top: 25px; text-align: center" >
+                {{ cars.number }}
+              </div>
+
+
+        </div>
+    </div>
+
+</body>
+</html>

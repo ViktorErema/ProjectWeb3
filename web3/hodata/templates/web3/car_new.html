@@ -3,10 +3,10 @@
 <body>
 
 
-<h2><a href="{% url 'list_objects' %}"> Назад</a>
+<a href="{% url 'list_objects' %}"> Назад</a>
 
 <form method="post">{% csrf_token %}
-    {{ ps_form.as_p }}
+    {{ c_form.as_p }}
     <input type="submit" value="Submit" />
 </form>
 
