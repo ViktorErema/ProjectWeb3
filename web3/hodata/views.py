@@ -50,9 +50,15 @@ def zapros2(request):
 def list_objects(request):
     persons = Person.nodes.all()
     cars = Car.nodes.all()
+    search_query = request.GET.get('search', '')
+    if search_query:
+        persons = Person.nodes.filter(name__icontains=search_query)
+        cars = Car.nodes.filter(name__icontains=search_query)
+
     return render (request, 'web3/list_objects.html', {
                                                                             'data': persons,
                                                                             'data_cars': cars,
+
                                                                             })
 
 def person_new(request):
