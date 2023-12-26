@@ -7,71 +7,43 @@ from neomodel import StructuredNode, StringProperty, DateTimeProperty, UniqueIdP
 from .models import *
 from py2neo import Graph, Node
 
-class Document (models.Model):
-
-    title = models.CharField(max_length=150, verbose_name='Имя документа')
-    text = models.TextField(verbose_name='Описание')
-
-
-class Subject (models.Model):
-
-    name = models.CharField(max_length=150)
-
-    def __str__(self):
-        return f'{self.name}'
-
-class Predicat (models.Model):
-
-    name = models.CharField(max_length=150)
-
-    def __str__(self):
-        return f'{self.name}'
-
-class Object (models.Model):
-
-    name = models.CharField(max_length=150)
-    def __str__(self):
-        return f'{self.name}'
-
-class Graff (models.Model):
-
-    subject = models.ForeignKey(Subject, on_delete = models.CASCADE)
-    predicat = models.ForeignKey(Predicat, on_delete = models.CASCADE)
-    object = models.ForeignKey(Object, on_delete = models.CASCADE)
-    connected = models.ForeignKey('self', on_delete = models.SET_NULL, null = True, blank = True)
-
-    def __str__(self):
-        return f'{self.subject} {self.predicat} {self.object}'
-
+# class Document (models.Model):
 #
-# class PersonLivesInCity(StructuredRel):
-#     some_num = IntegerProperty(index=True,
-#                                default=12)
-#
-# class CountryOfOrigin(StructuredRel):
-#     code = StringProperty(unique_index=True,
-#                           required=True)
-#
-# class CityOfResidence(StructuredNode):
-#     name = StringProperty(required=True)
-#     country = RelationshipTo(CountryOfOrigin,
-#                              'FROM_COUNTRY')
-#
-# class Person(DjangoNode):
-#     uid = UniqueIdProperty()
-#     name = StringProperty(unique_index=True)
-#     age = IntegerProperty(index=True,
-#                           default=0)
+#     title = models.CharField(max_length=150, verbose_name='Имя документа')
+#     text = models.TextField(verbose_name='Описание')
 #
 #
-#     country = RelationshipTo(CountryOfOrigin,
-#                              'IS_FROM', model=CountryOfOrigin)
-#     city = RelationshipTo(CityOfResidence,
-#                           'Живет',
-#                           model=PersonLivesInCity)
+# class Subject (models.Model):
 #
-#     class Meta:
-#         app_label = 'hodata'
+#     name = models.CharField(max_length=150)
+#
+#     def __str__(self):
+#         return f'{self.name}'
+#
+# class Predicat (models.Model):
+#
+#     name = models.CharField(max_length=150)
+#
+#     def __str__(self):
+#         return f'{self.name}'
+#
+# class Object (models.Model):
+#
+#     name = models.CharField(max_length=150)
+#     def __str__(self):
+#         return f'{self.name}'
+#
+# class Graff (models.Model):
+#
+#     subject = models.ForeignKey(Subject, on_delete = models.CASCADE)
+#     predicat = models.ForeignKey(Predicat, on_delete = models.CASCADE)
+#     object = models.ForeignKey(Object, on_delete = models.CASCADE)
+#     connected = models.ForeignKey('self', on_delete = models.SET_NULL, null = True, blank = True)
+#
+#     def __str__(self):
+#         return f'{self.subject} {self.predicat} {self.object}'
+
+
 class title_life(StructuredRel):
     title = StringProperty(unique_index=True,
                           required=True)
@@ -82,12 +54,12 @@ class title_owns(StructuredRel):
 
 class Person(DjangoNode):
     uid = UniqueIdProperty()
-    name = StringProperty()
+    name  = StringProperty()
     age = IntegerProperty(index=True,
                           default=0)
-    persons = Relationship('Person', "Frends", cardinality=ZeroOrMore)
-    cars = RelationshipTo('Car', 'owns', model=title_life)
-    houses = RelationshipTo('House', 'life', model=title_owns)
+    persons = Relationship('Person', "Frends")
+    cars = RelationshipTo('Car', 'owns')
+
 
     class Meta:
          app_label = 'hodata'
@@ -97,27 +69,9 @@ class Car(DjangoNode):
     uid = UniqueIdProperty()
     name = StringProperty()
     number = StringProperty()
-
     cars = Relationship('Car', None)
     persons = RelationshipFrom('Person', 'owns')
     class Meta:
          app_label = 'hodata'
 
 
-
-class House(DjangoNode):
-    uid = UniqueIdProperty()
-    street = StringProperty()
-    number = StringProperty()
-
-    houses = Relationship('House', None)
-    persons = RelationshipFrom('Person', 'life')
-    class Meta:
-         app_label = 'hodata'
-
-# class Book(Person):
-#     uid = UniqueIdProperty()
-#     name = StringProperty()
-#     persons = Relationship('self', 'owns')
-#     class Meta:
-#          app_label = 'hodata'

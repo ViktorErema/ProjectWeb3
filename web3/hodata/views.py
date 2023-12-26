@@ -1,51 +1,47 @@
 from itertools import chain
-
-from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
-from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
-from django.views import View
-from neo4j import GraphDatabase
 from .forms import *
 from .models import *
+from yandexgptlite import YandexGPTLite
 
 
-
-def document_list(request):
-    documents = Document.objects.all()
-    return render (request, 'web3/document_list.html', {'items': documents,
-                                                                             })
-
-def document_detail(request,document_pk):
-    documents = Document.objects.get(pk=document_pk)
-    return render(request, 'web3/document_detail.html', {'doc': documents})
-
-def document_new(request):
-    if request.method == "GET":
-        form = DocumentForm()
-        return render(request, 'web3/document_new.html', {'form': form} )
-    else:
-        form = DocumentForm(request.POST)
-        if form.is_valid():
-            document = form.save(commit=False)
-            document.save()
-            return redirect(document_list)
-
-def zapros2(request):
-    if request.method == 'POST':
-        form = ListItemForm(request.POST)
-        if form.is_valid():
-            selected_item = form.cleaned_data['item']
-        else:
-            selected_item = None
-    else:
-        form = ListItemForm()
-        selected_item = None
-
-    context= {
-        'form': form,
-        'selected_item': selected_item,
-    }
-    return render(request, 'web3/document_list.html', context)
+account = YandexGPTLite('b1ggegst0vcfutpdrgkr', 'y0_AgAAAABZWJsxAATuwQAAAAD14PF0cnI_oXhuQLKirpuGQ60Ty8L2bqw' )
+# def document_list(request):
+#     documents = Document.objects.all()
+#     return render (request, 'web3/document_list.html', {'items': documents,
+#                                                                              })
+#
+# def document_detail(request,document_pk):
+#     documents = Document.objects.get(pk=document_pk)
+#     return render(request, 'web3/document_detail.html', {'doc': documents})
+#
+# def document_new(request):
+#     if request.method == "GET":
+#         form = DocumentForm()
+#         return render(request, 'web3/document_new.html', {'form': form} )
+#     else:
+#         form = DocumentForm(request.POST)
+#         if form.is_valid():
+#             document = form.save(commit=False)
+#             document.save()
+#             return redirect(document_list)
+#
+# def zapros2(request):
+#     if request.method == 'POST':
+#         form = ListItemForm(request.POST)
+#         if form.is_valid():
+#             selected_item = form.cleaned_data['item']
+#         else:
+#             selected_item = None
+#     else:
+#         form = ListItemForm()
+#         selected_item = None
+#
+#     context= {
+#         'form': form,
+#         'selected_item': selected_item,
+#     }
+#     return render(request, 'web3/document_list.html', context)
 
 def list_objects(request):
     persons = Person.nodes.all()
@@ -54,6 +50,7 @@ def list_objects(request):
     if search_query:
         persons = Person.nodes.filter(name__icontains=search_query)
         cars = Car.nodes.filter(name__icontains=search_query)
+
 
     return render (request, 'web3/list_objects.html', {
                                                                             'data': persons,
@@ -93,15 +90,6 @@ def person_update(request, uid):
         return redirect(list_objects)
     return render(request, "web3/person_update.html", {'ps_form': ps_form})
 
-# def search(request):
-#     results = []
-#     if request.method == "GET":
-#      query = request.GET.get('search')
-#     if query == '':
-#      query = 'None'
-#     results = Person.nodes.filter(name__icontains=search_query)
-#     return render(request," web3/list_objects.html", {'results': results})
-
 def list_detail(request, uid):
     persons = Person.nodes.get(uid=uid)
     return render(request, 'web3/list_detail.html', {
@@ -122,33 +110,54 @@ def car_delete(request, uid):
     return redirect('list_objects')
 
 
-# class Neo4jConnection:
-#     def __init__(self):
-#         self.driver = GraphDatabase.driver("bolt://localhost:7687", auth=("neo4j", "neo4jneo4j"))
+# def search_yandex(request):
+#     name = input("Ввод данных: ")
+#     text = account.create_completion(prompt=name, temperature='0.6')
+#     search_query = request.GET.get('search_YA', '')
+#     if search_query:
+#         name = text.filter(name__icontains=search_query)
+#     return render(request, 'web3/search.html', {
+#         'names': name,
+#     })
+
+# def zapros(request):
+#     if request.method == 'POST':
+#         form_real2 = ListItemForm2(request.POST)
+#         if form_real2.is_valid():
+#             selected_item_person = form_real2.cleaned_data['items_person']
+#         else:
+#             selected_item_person = None
+#     else:
+#         form_real2 = ListItemForm2()
+#         selected_item_person = None
 #
-#     def close(self):
-#         if self.driver is not None:
-#             self.driver.close()
+#     context= {
+#         'form_real2': form_real2,
+#         'selected_item_person': selected_item_person,
+#     }
+#     return render(request, 'web3/search.html', context)
 #
-#     def query(self, query, db=None):
-#         assert self.driver is not None, "Driver not initialized!"
-#         session = None
-#         response = None
-#         try:
-#             session = self.driver.session(database=db) if db is not None else self.driver.session()
-#             response = list(session.run(query))
-#         except Exception as e:
-#             print("Query failed:", e)
-#         finally:
-#             if session is not None:
-#                 session.close()
-#         return response
+# def zapros3(request):
+#     if request.method == 'POST':
+#         form_real3 = ListItemForm3(request.POST)
+#         if form_real3.is_valid():
+#             selected_item_car = form_real3.cleaned_data['items_car']
+#         else:
+#             selected_item_car = None
+#     else:
+#         form_real3 = ListItemForm3()
+#         selected_item_car = None
 #
-# query_string = '''
-# LOAD CSV WITH HEADERS FROM
-# 'https://raw.githubusercontent.com/Mario-cartoon/bd/main/Product.csv'
-# AS line FIELDTERMINATOR ','
-# MERGE (product:Product {productID: line.ProductID})
-#   ON CREATE SET product.productName = line.ProductName, product.UnitPrice = toFloat(line.UnitPrice);
-# '''
-# conn.query(query_string, db='graphDb')
+#     context= {
+#         'form_real3': form_real3,
+#         'selected_item_car': selected_item_car,
+#     }
+#     return render(request, 'web3/search.html', context)
+
+
+def run(requests, Person):
+    pers = Person.persons.connect(Person)
+    context = {
+                'pers':pers,
+                }
+    return redirect(requests, list_objects, context)
