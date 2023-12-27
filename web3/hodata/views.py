@@ -5,7 +5,7 @@ from .models import *
 from yandexgptlite import YandexGPTLite
 
 
-account = YandexGPTLite('b1ggegst0vcfutpdrgkr', 'y0_AgAAAABZWJsxAATuwQAAAAD14PF0cnI_oXhuQLKirpuGQ60Ty8L2bqw' )
+
 # def document_list(request):
 #     documents = Document.objects.all()
 #     return render (request, 'web3/document_list.html', {'items': documents,
