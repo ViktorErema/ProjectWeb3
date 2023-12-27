@@ -6,7 +6,7 @@
 <a href="{% url 'list_objects' %}"><button style="--clr:#39FF14"><span>Назад</span></button></a></a>
 
 <form method="post">{% csrf_token %}
-    {{ ps_form.as_p }}
+    {{ c_form.as_p }}
     <input type="submit" value="Submit" />
 </form>
 

@@ -2,67 +2,77 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-
 </head>
-<body>
-<div>
-    <a href="{% url 'run' %}" class='btn btn-lg'>Button</a>
-</div>
- <div>
-    <a href="{% url 'person_new' %}">Создание персон</a>
- </div>
- <div>
-    <a href="{% url 'car_new' %}">Создание Машины</a>
+<head>
+  <link rel="stylesheet" href="static/web3/project/style.css">
+</head>
+
+ <div align="left">
+    <a href="{% url 'person_new' %}">
+        <button style="--clr:#39FF14"><span>Создание персон</span></button></a>
+     <a  href="{% url 'car_new' %}">
+        <button style="--clr:#0FF0FC"><span>Создание машин</span></button></a>
  </div>
 
-            <form class="search", action="{% url 'list_objects' %}">
-                <input type="text" class="search_input" placeholder="Найти пост", type="search", name="search">
-                    <button class="button button__search" >
-                    <div class="search_button-text">Поиск</div>
+
+            <form align="center" class="search", action="{% url 'list_objects' %}">
+                <input  type="text" class="search_input" placeholder="Ввидите запрос", type="search", name="search">
+                    <button  class="button button__search"  >
+                    <span>Поиск</span>
                 </button>
             </form>
 
-    <div >
+
+
+    <div align="center" >
 
                     {%for i in data%}
             <th>Person
 
                 <p  style=" border: 2px solid black;">
-               <th> ID {{ i.uid }}<br></th>
+
                <th> Имя: {{ i.name }}<br></th>
                <th> Возраст:  {{ i.age }}<br></th>
+
                 <th>
-                    <a href="{% url 'list_detail' uid=i.uid %}">Смотреть полностью</a>
+                    <a  href="{% url 'list_detail' uid=i.uid %}"><button1 style="--clr:#39FF14"><span>Смотреть полностью</span></a>
                 </th>
+
                 <th>
-                   <a href="{% url 'person_delete' uid=i.uid %}"> Удалить</a>
+                   <a href="{% url 'person_delete' uid=i.uid %}"><button1 style="--clr:#39FF14"><span>Удалить</span></a>
                  </th>
+
                  <th>
-                   <a href="{% url 'person_update' uid=i.uid %}"> Изменить</a>
+                   <a href="{% url 'person_update' uid=i.uid %}"> <button1 style="--clr:#39FF14"><span>Изменить</span></a>
                  </th>
+
                 </p>
                 {% endfor %}
 
-
     </div>
 
-     <div >
+     <div align="center" >
 
            {%for i in data_cars%}
-                <th>Car</th>
+                <th>Car </th>
 
-                <p  style=" border: 2px solid black;">
-               <th> ID {{ i.uid }}<br></th>
-               <th> Имя: {{ i.name }}<br></th>
-               <th> Возраст:  {{ i.number }}<br></th>
-                    <th>
-                    <a href="{% url 'list_detail_car' uid=i.uid %}">Смотреть полностью</a>
-                </th>
-                    <th>
-                   <a href="{% url 'car_delete' uid=i.uid %}"> Удалить</a>
-                 </th>
+              <p style=" border: 2px solid black;">
 
-                </p>
+                <th> Марка: {{ i.name }}<br></th>
+                <th> Номер:  {{ i.number }}<br></th>
+
+                    <th>
+                        <a href="{% url 'list_detail_car' uid=i.uid %}"><button1 style="--clr:#0FF0FC"><span>Смотреть полностью</span></button1></a>
+                    </th>
+
+                    <th>
+                        <a href="{% url 'car_delete' uid=i.uid %}"><button1 style="--clr:#0FF0FC"><span>Удалить</a>
+                    </th>
+                  <th>
+                   <a href="{% url 'car_update' uid=i.uid %}"> <button1 style="--clr:#0FF0FC"><span>Изменить</span></a>
+                  </th>
+
+              </p>
                 {% endfor %}
 
      </div>

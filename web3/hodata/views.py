@@ -6,42 +6,7 @@ from yandexgptlite import YandexGPTLite
 
 
 
-# def document_list(request):
-#     documents = Document.objects.all()
-#     return render (request, 'web3/document_list.html', {'items': documents,
-#                                                                              })
-#
-# def document_detail(request,document_pk):
-#     documents = Document.objects.get(pk=document_pk)
-#     return render(request, 'web3/document_detail.html', {'doc': documents})
-#
-# def document_new(request):
-#     if request.method == "GET":
-#         form = DocumentForm()
-#         return render(request, 'web3/document_new.html', {'form': form} )
-#     else:
-#         form = DocumentForm(request.POST)
-#         if form.is_valid():
-#             document = form.save(commit=False)
-#             document.save()
-#             return redirect(document_list)
-#
-# def zapros2(request):
-#     if request.method == 'POST':
-#         form = ListItemForm(request.POST)
-#         if form.is_valid():
-#             selected_item = form.cleaned_data['item']
-#         else:
-#             selected_item = None
-#     else:
-#         form = ListItemForm()
-#         selected_item = None
-#
-#     context= {
-#         'form': form,
-#         'selected_item': selected_item,
-#     }
-#     return render(request, 'web3/document_list.html', context)
+
 
 def list_objects(request):
     persons = Person.nodes.all()
@@ -69,6 +34,13 @@ def person_new(request):
             person.save()
             return redirect('list_objects')
 
+def person_update(request, uid):
+    person = Person.nodes.get_or_none(uid=uid)
+    ps_form = PersonForm(request.POST or None, instance=person)
+    if ps_form.is_valid():
+        ps_form.save()
+        return redirect(list_objects)
+    return render(request, "web3/person_update.html", {'ps_form': ps_form})
 
 def car_new(request):
     if request.method == "GET":
@@ -81,14 +53,14 @@ def car_new(request):
             car.save()
             return redirect (list_objects)
 
-def person_update(request, uid):
-    person = Person.nodes.get_or_none(uid=uid)
-
-    ps_form = PersonForm(request.POST or None, instance=person)
-    if ps_form.is_valid():
-        ps_form.save()
+def car_update(request, uid):
+    car = Car.nodes.get_or_none(uid=uid)
+    c_form = CarForm(request.POST or None, instance=car)
+    if c_form.is_valid():
+        c_form.save()
         return redirect(list_objects)
-    return render(request, "web3/person_update.html", {'ps_form': ps_form})
+    return render(request, "web3/car_update.html", {'c_form': c_form})
+
 
 def list_detail(request, uid):
     persons = Person.nodes.get(uid=uid)
@@ -109,16 +81,6 @@ def car_delete(request, uid):
     car = Car.nodes.get_or_none(uid=uid).delete()
     return redirect('list_objects')
 
-
-# def search_yandex(request):
-#     name = input("Ввод данных: ")
-#     text = account.create_completion(prompt=name, temperature='0.6')
-#     search_query = request.GET.get('search_YA', '')
-#     if search_query:
-#         name = text.filter(name__icontains=search_query)
-#     return render(request, 'web3/search.html', {
-#         'names': name,
-#     })
 
 # def zapros(request):
 #     if request.method == 'POST':

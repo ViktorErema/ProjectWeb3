@@ -1,5 +1,4 @@
-
-import os.path
+import os
 from pathlib import Path
 from py2neo import Graph
 from neo4j import GraphDatabase
@@ -24,6 +23,7 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -32,7 +32,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'hodata.apps.HodataConfig',
     'django_neomodel',
-    'yandexgptlite'
+
 
 
 ]
@@ -92,17 +92,6 @@ NEO4J_DATABASES = {
         'ENDPOINT':'/db/data'
     }
 }
-#
-# DATABASES = {
-# 'default': {
-# 'ENGINE': 'django.db.backends.neo4j',
-# 'NAME': 'neo4j',
-# 'HOST': 'localhost',
-# 'PORT': '7687',
-# 'USERNAME': 'neo4j',
-# 'PASSWORD': 'neo4jneo4j',
-# }
-# }
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -118,7 +107,11 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+STATIC_URL = '/static/'
 
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+]
 LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
@@ -127,8 +120,8 @@ USE_I18N = True
 
 USE_TZ = True
 
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-STATIC_URL = 'static/'
 
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
