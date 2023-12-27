@@ -14,7 +14,7 @@ urlpatterns = [
     path('car_new/',car_new, name='car_new'),
     path('list_objects/<uid>', person_delete, name='person_delete'),
     path('list_objects_c/<uid>', car_delete, name='car_delete'),
-    re_path('', run, name="run"),
+    path('Relationship/', Relationship_person, name='Relationship_person'),
     # re_path("vivod/", zapros, name="vivod"),
     # re_path("vivod/", zapros3, name="vivod"),
 

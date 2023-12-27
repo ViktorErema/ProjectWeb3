@@ -30,7 +30,7 @@ class Person(DjangoNode):
 
 class Car(DjangoNode):
     uid = UniqueIdProperty()
-    name = StringProperty()
+    name = StringProperty(null=False, blank=False)
     number = StringProperty()
     cars = Relationship('Car', None)
     persons = RelationshipFrom('Person', 'owns')

@@ -1,4 +1,6 @@
 from itertools import chain
+
+from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import *
 from .models import *
@@ -32,7 +34,7 @@ def person_new(request):
         if ps_form.is_valid():
             person = ps_form.save(commit=False)
             person.save()
-            return redirect('list_objects')
+            return redirect(list_objects)
 
 def person_update(request, uid):
     person = Person.nodes.get_or_none(uid=uid)
@@ -82,44 +84,9 @@ def car_delete(request, uid):
     return redirect('list_objects')
 
 
-# def zapros(request):
-#     if request.method == 'POST':
-#         form_real2 = ListItemForm2(request.POST)
-#         if form_real2.is_valid():
-#             selected_item_person = form_real2.cleaned_data['items_person']
-#         else:
-#             selected_item_person = None
-#     else:
-#         form_real2 = ListItemForm2()
-#         selected_item_person = None
-#
-#     context= {
-#         'form_real2': form_real2,
-#         'selected_item_person': selected_item_person,
-#     }
-#     return render(request, 'web3/search.html', context)
-#
-# def zapros3(request):
-#     if request.method == 'POST':
-#         form_real3 = ListItemForm3(request.POST)
-#         if form_real3.is_valid():
-#             selected_item_car = form_real3.cleaned_data['items_car']
-#         else:
-#             selected_item_car = None
-#     else:
-#         form_real3 = ListItemForm3()
-#         selected_item_car = None
-#
-#     context= {
-#         'form_real3': form_real3,
-#         'selected_item_car': selected_item_car,
-#     }
-#     return render(request, 'web3/search.html', context)
 
+def Relationship_person (request):
 
-def run(requests, Person):
-    pers = Person.persons.connect(Person)
-    context = {
-                'pers':pers,
-                }
-    return redirect(requests, list_objects, context)
+    person1 = Person.nodes.get("name")
+    person2 = Person.nodes.get("name")
+    return HttpResponse(f"<h2>Name: {person1.persons.connect(person2)} </h2>")
