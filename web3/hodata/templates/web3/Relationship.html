@@ -4,13 +4,13 @@
     <meta charset="utf-8" />
     <title>METANIT.COM</title>
 </head>
-<body>
-    <h2>User form</h2>
-    <form method="post" action="Relationship_person/">
+<a href="{% url 'list_objects' %}"> Назад</a>
+
+<form method="post">
         {% csrf_token %}
-        <p>Name:<br> <input name="name" /></p>
-        <p>Name:<br> <input name="name" /></p>
-        <input type="submit" value="Send" />
-    </form>
+        {{ ps2_form.as_p }}
+        {{ ps3_form.as_p }}
+    <input type="submit" value="Submit" />
+</form>
 </body>
 </html>

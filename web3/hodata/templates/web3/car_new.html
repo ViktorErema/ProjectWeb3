@@ -1,20 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-</head>
-<head>
-  <link rel="stylesheet" href="static/web3/project/style.css">
-</head>
-  <div >
-    <a href="{% url 'list_objects' %}">
-        <button1 style="--clr:#39FF14"><span>Назад</span></button1>
-    </a>
-  </div>
-  <form method="post">{% csrf_token %}
+<html>
+<body>
+
+
+<a href="{% url 'list_objects' %}"> Назад</a>
+
+<form method="post">{% csrf_token %}
     {{ c_form.as_p }}
     <input type="submit" value="Submit" />
-  </form>
+</form>
 
 </body>
 </html>

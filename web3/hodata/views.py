@@ -1,10 +1,9 @@
-from itertools import chain
-
-from django.http import HttpResponse
+from django.contrib.sites import requests
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import *
 from .models import *
-from yandexgptlite import YandexGPTLite
+
 
 
 
@@ -53,7 +52,7 @@ def car_new(request):
         if c_form.is_valid():
             car = c_form.save(commit=False)
             car.save()
-            return redirect (list_objects)
+            return redirect(list_objects)
 
 def car_update(request, uid):
     car = Car.nodes.get_or_none(uid=uid)
@@ -87,6 +86,42 @@ def car_delete(request, uid):
 
 def Relationship_person (request):
 
-    person1 = Person.nodes.get("name")
-    person2 = Person.nodes.get("name")
+    person1 = Person.nodes.get()
+    person2 = Person.nodes.get()
     return HttpResponse(f"<h2>Name: {person1.persons.connect(person2)} </h2>")
+
+
+def generate_text(request):
+    if request.method == 'POST':
+        input_text = request.POST.get('input_text')
+        api_key = 'ajeapv6cu1bmq5u6qgnq'
+
+        url = 'https://translate.yandex.net/api/v1.5/tr.json/translate'
+        headers = {'Content-Type': 'application/x-www-form-urlencoded'}
+
+        data = {'key': api_key, 'text': input_text, 'lang': 'en-ru'}
+
+        response = requests.post(url, headers=headers, data=data)
+
+        if response.status_code == 200:
+            generated_text = response.json()['text'][0]
+            return JsonResponse({'generated_text': generated_text})
+        else:
+            return JsonResponse({'error': 'Failed to generate text'}, status=500)
+    else:
+        return JsonResponse({'error': 'Invalid request method'}, status=400)
+
+
+#
+# db = django_db.connect()
+# cursor = db.cursor()
+# cursor.execute("SELECT * FROM mytable")
+# results = cursor.fetchall()
+# db.close()
+# template_name = 'my_app/my_template.html'
+#
+# def my_view(request):
+#     data = {
+#         'results': results,
+#     }
+#     return render(request, template_name, data)

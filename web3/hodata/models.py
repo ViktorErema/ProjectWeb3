@@ -23,7 +23,6 @@ class Person(DjangoNode):
     persons = Relationship('Person', "Frends")
     cars = RelationshipTo('Car', 'owns')
 
-
     class Meta:
          app_label = 'hodata'
 

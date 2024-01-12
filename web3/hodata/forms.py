@@ -3,7 +3,6 @@ from django.forms import ModelForm
 from .models import *
 
 
-
 class PersonForm(ModelForm):
     class Meta:
         model = Person
@@ -12,7 +11,8 @@ class PersonForm(ModelForm):
 
                   )
 
-class CarForm(ModelForm):
+
+class CarForm(forms.Form):
     class Meta:
         model = Car
         fields = ('name',
@@ -25,3 +25,6 @@ class CarForm(ModelForm):
 #
 # class ListItemForm3(forms.Form):
 #     items_car = forms.ModelChoiceField(queryset=Car.nodes.all())
+
+
+
